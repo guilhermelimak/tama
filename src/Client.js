@@ -4,7 +4,7 @@ const URL = 'ws://localhost:9000'
 
 let instance = null
 
-export default class Client {
+export default class RemClient {
   constructor(url, handlers) {
     if (!instance) instance = this
 
