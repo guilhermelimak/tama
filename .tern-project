@@ -1,0 +1,32 @@
+{
+  "ecmaVersion": 6,
+  "libs": [],
+  "dontLoad": [
+    "node_modules/*",
+    "node_modules"
+  ],
+  "plugins": {
+    "complete_strings": {
+      "maxLength": 15
+    },
+    "doc_comment": {
+      "fullDocs": true,
+      "strong": true
+    },
+    "node": {
+      "dontLoad": "",
+      "load": "",
+      "modules": ""
+    },
+    "node_resolve": {},
+    "modules": {
+      "dontLoad": "",
+      "load": "",
+      "modules": "."
+    },
+    "webpack": {
+      "configPath": "./webpack.config.js"
+    },
+    "es_modules": {}
+  }
+}
