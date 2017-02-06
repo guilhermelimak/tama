@@ -1,15 +1,24 @@
 import Joi from 'joi'
 
-import { NAMESPACE_REGEX, TIMESTAMP_REGEX } from 'src/constants'
+import { TIMESTAMP_FORMAT } from 'src/constants'
 
-export default Joi.object().keys({
-  id: Joi.string(),
+/**
+ *
+ *
+ * @param   {String} id                Event id
+ * @param   {String} type              Used to identify events and run handlers
+ * @param   {String} payload           Data being transfered in event
+ * @param   {String} meta.recipient    Event recipient
+ * @param   {String} meta.publisher    Event publisher
+ * @param   {String} meta.timestamp    Event timestamp
+ */
+export default Joi.object().required().keys({
+  id: Joi.string().required(),
   type: Joi.string().required(),
   payload: Joi.required(),
-  meta: {
-    recipient: Joi.string(),
-    timestamp: Joi.string().regex(TIMESTAMP_REGEX),
-    publisherId: Joi.string(),
-    publisherNamespace: Joi.string().regex(NAMESPACE_REGEX),
-  },
+  meta: Joi.object().required().keys({
+    recipient: Joi.string().required(),
+    timestamp: Joi.string().required().regex(TIMESTAMP_FORMAT),
+    publisher: Joi.string().required(),
+  }),
 })
