@@ -1,12 +1,14 @@
 {
   "name": "0xREM",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --watch=all",
     "build": "babel src/ --out-dir dist",
-    "dev": "nodemon src/Server.js --exec babel-node",
+    "prepublish": "yarn run lint && yarn run build",
+    "updateDocs": "babel-node docs/generateDocs.js",
+    "dev": "babel --watch src/ --out-dir dist",
     "lint": "eslint -c .eslintrc.yml --fix src"
   },
   "author": "Guilherme Lima",
@@ -15,6 +17,7 @@
     "fecha": "^2.3.0",
     "jest": "^18.1.0",
     "joi": "^10.2.1",
+    "joi-to-markdown": "^1.0.1",
     "lodash": "^4.17.4",
     "ws": "^1.1.1"
   },
@@ -29,7 +32,6 @@
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-import-resolver-babel-module": "^2.2.1",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jest": "^1.0.2",
-    "nodemon": "^1.11.0"
+    "eslint-plugin-jest": "^1.0.2"
   }
 }
