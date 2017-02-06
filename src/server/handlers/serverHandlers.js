@@ -1,9 +1,8 @@
 export default [
   {
     name: 'connection',
-    handler(socket) {
-      console.log('New client connected...'.blue)
-      console.log(socket)
+    handler() {
+      console.log('New client connected...')
     },
   },
 ]
