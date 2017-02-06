@@ -3,8 +3,6 @@ import Joi from 'joi'
 import { TIMESTAMP_FORMAT } from 'src/constants'
 
 /**
- *
- *
  * @param   {String} id                Event id
  * @param   {String} type              Used to identify events and run handlers
  * @param   {String} payload           Data being transfered in event

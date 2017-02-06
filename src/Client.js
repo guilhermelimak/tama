@@ -1,14 +1,14 @@
 import WebSocket from 'ws'
 
-const URL = 'ws://localhost:9000'
+const DEFAULT_URL = 'ws://localhost:9000'
 
 let instance = null
 
 export default class RemClient {
-  constructor(url, handlers) {
+  constructor(url = DEFAULT_URL, handlers = []) {
     if (!instance) instance = this
 
-    this.ws = new WebSocket(URL)
+    this.ws = new WebSocket(url)
 
     this.ws.on('open', () => console.log('connection'))
 
