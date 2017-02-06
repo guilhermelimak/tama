@@ -6,17 +6,17 @@ extends: 'airbnb-base'
 parserOptions:
   sourceType: module
 rules:
-  import/prefer-default-export:
-    - off
-  import/no-extraneous-dependencies:
-    - off
-  no-console:
-    - off
+  import/prefer-default-export: off
+  import/no-unresolved: off
+  import/extensions: off
+  import/no-extraneous-dependencies: off
+  import/no-dynamic-require: off
+  no-console: off
+  global-require: off
   indent:
     - error
     - 2
-  no-underscore-dangle:
-    - off
+  no-underscore-dangle: off
   linebreak-style:
     - error
     - unix
