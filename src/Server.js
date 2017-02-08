@@ -1,5 +1,6 @@
 import { Server } from 'ws'
 import { encode } from 'base-64'
+import 'colors'
 
 import Connection from 'src/server/Connection'
 import ConnectionsList from 'src/server/ConnectionsList'
@@ -51,7 +52,12 @@ export default class RemServer {
         recipient: id,
       }
 
-      socket.send(new Event('register', id, meta).log().toString())
+      socket.send(new Event({
+        type: 'register',
+        payload: id,
+        meta,
+      }).log().toString())
+
 
       socket.emit()
     })
