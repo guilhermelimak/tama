@@ -1,8 +1,8 @@
 import Joi from 'joi'
 import fecha from 'fecha'
 
-import { logMessage, genRandomString } from 'src/util'
-import { TIME_FORMAT } from 'src/constants'
+import { logEvent, genRandomString } from 'src/util'
+import { TIMESTAMP_FORMAT } from 'src/constants'
 
 import eventSchema from 'src/shared/schemas/eventSchema'
 
@@ -18,13 +18,10 @@ export default class Event {
    */
   constructor(type, payload, meta) {
     const eventData = {
-      _id: genRandomString(),
+      id: genRandomString(),
       type,
       payload,
-      meta: {
-        ...meta,
-        timestamp: fecha.format(new Date(), TIME_FORMAT),
-      },
+      meta: { ...meta, timestamp: fecha.format(new Date(), TIMESTAMP_FORMAT) },
     }
 
     Joi.validate(eventData, eventSchema, (err, val) => {
@@ -39,7 +36,7 @@ export default class Event {
   }
 
   log() {
-    logMessage(this.toObject())
+    logEvent(this.toObject())
 
     return this
   }
