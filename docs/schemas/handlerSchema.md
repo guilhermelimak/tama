@@ -2,5 +2,5 @@
 | path    | type   | presence | invalids |
 |---------|--------|----------|----------|
 | -       | object | optional |          |
-| name    | string | required | `""`     |
+| type    | string | required | `""`     |
 | handler | object | required |          |
