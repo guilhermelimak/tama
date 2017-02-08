@@ -14,17 +14,20 @@ export default class Event {
    *
    * @param    {String}      type      Event type
    * @param    {Payload}     payload   Event payload
-   * @param    {Object}      meta      Event metadata
+   * @param    {Object}      meta
    */
-  constructor(type, payload, meta) {
-    const eventData = {
+  constructor(eventData) {
+    let _eventData = { ...eventData }
+    if (eventData.strMessage) _eventData = JSON.parse(eventData.strMessage)
+
+    _eventData = {
       id: genRandomString(),
-      type,
-      payload,
-      meta: { ...meta, timestamp: fecha.format(new Date(), TIMESTAMP_FORMAT) },
+      type: _eventData.type,
+      payload: _eventData.payload,
+      meta: { ..._eventData.meta, timestamp: fecha.format(new Date(), TIMESTAMP_FORMAT) },
     }
 
-    Joi.validate(eventData, eventSchema, (err, val) => {
+    Joi.validate(_eventData, eventSchema, (err, val) => {
       if (err) {
         console.error(err)
         console.error('Invalid event data')

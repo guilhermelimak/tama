@@ -4,10 +4,11 @@ import Event from 'src/shared/Event'
  * Return the handler associated with the event type.
  *
  * @method getEventHandler
- * @param  {Object}  event  Parsed event object
- * @return {Function}  Handler associated with the event type
+ * @param  {Object}   e          Event object
+ * @param  {Object}   handlers   Handlers list to find the handler in.
+ * @return {Func}     Handler associated with the event type
  */
-const getEventHandler = (event, handlers) => handlers.find(i => i.name === event.type).handler
+const getEventHandler = (e, handlers) => handlers.find(i => i.type === e.type).handler.bind(this)
 
 /**
  * Validate message schema and parse the payload.
@@ -16,10 +17,7 @@ const getEventHandler = (event, handlers) => handlers.find(i => i.name === event
  * @param  {Object}     strMessage Message object in string format to be JSON.parsed
  */
 export default function parseMessage(strMessage, handlersList) {
-  const event = new Event(JSON.parse(strMessage)).log()
+  const event = new Event({ strMessage }).log()
   const eventObj = event.toObject()
-
-  const handler = getEventHandler(eventObj, handlersList)
-
-  handler(eventObj)
+  getEventHandler(eventObj, handlersList)(eventObj.payload, this)
 }

@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
 export default Joi.object().keys({
-  name: Joi.string().required(),
+  type: Joi.string().required(),
   handler: Joi.func().required(),
 })
