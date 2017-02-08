@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-import { TIMESTAMP_FORMAT } from 'src/constants'
+import { TIMESTAMP_REGEX } from 'src/constants'
 
 /**
  * @param   {String} id                Event id
@@ -16,7 +16,7 @@ export default Joi.object().required().keys({
   payload: Joi.required(),
   meta: Joi.object().required().keys({
     recipient: Joi.string().required(),
-    timestamp: Joi.string().required().regex(TIMESTAMP_FORMAT),
+    timestamp: Joi.string().required().regex(TIMESTAMP_REGEX),
     publisher: Joi.string().required(),
   }),
 })

@@ -1,9 +1,10 @@
 import Joi from 'joi'
 import fecha from 'fecha'
 
-import { genRandomString } from 'src/util'
-import eventSchema from 'src/socket/schemas/eventSchema'
+import { logMessage, genRandomString } from 'src/util'
 import { TIME_FORMAT } from 'src/constants'
+
+import eventSchema from 'src/shared/schemas/eventSchema'
 
 export default class Event {
   /**
@@ -37,15 +38,18 @@ export default class Event {
     })
   }
 
-  toObject() {
-    return this.eventData
-  }
+  log() {
+    logMessage(this.toObject())
 
-  toString() {
-    return JSON.stringify(this.eventData)
+    return this
   }
 
   updateEvent(newVal) {
     this.eventData = newVal
+
+    return this
   }
+
+  toObject() { return this.eventData }
+  toString() { return JSON.stringify(this.eventData) }
 }
