@@ -7,6 +7,7 @@ parserOptions:
   sourceType: module
 rules:
   import/prefer-default-export: off
+  camelcase: off
   import/no-unresolved: off
   import/extensions: off
   import/no-extraneous-dependencies: off
