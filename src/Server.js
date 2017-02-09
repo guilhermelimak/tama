@@ -4,7 +4,7 @@ import 'colors'
 
 import Connection from 'src/server/Connection'
 import ConnectionsList from 'src/server/ConnectionsList'
-import defaultHandlers from 'src/server/handlers/serverHandlers'
+import defaultHandlers from 'src/server/serverHandlers'
 
 import Event from 'src/shared/Event'
 import parseMessage from 'src/shared/parseMessage'
