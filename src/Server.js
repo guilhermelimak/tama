@@ -2,6 +2,7 @@ import { Server } from 'ws'
 import 'colors'
 
 import ConnectionsList from 'src/server/ConnectionsList'
+import Event from 'src/shared/Event'
 
 import defaultOptions from 'src/server/defaultOptions'
 import defaultHandlers from 'src/server/defaultHandlers'
@@ -34,7 +35,15 @@ export default class RemServer {
    * @method   broadcastToAll
    * @param    {Event}  event  Event instance to be sent
    */
-  broadcastEvent(event) { this.connections.forEach(connection => connection.socket.send(event)) }
+  broadcastEvent(event) {
+    if (!(event instanceof Event)) {
+      return console.error('Argument event is not an instance of the Event class')
+    }
+
+    this.connections.list.forEach(connection => connection.socket.send(event))
+
+    return this
+  }
 
   /**
    * Emit event to one connection
@@ -43,14 +52,26 @@ export default class RemServer {
    * @param  {Event}  event     Event instance to be sent
    * @param  {String} connectionId  Connection to send the event to
    */
-  emitEvent(event, socketId) { this.connections.find(i => i.id === socketId).socket.send(event) }
+  emitEvent(event, socketId) {
+    if (!(event instanceof Event)) {
+      return console.error('Argument event is not an instance of the Event class')
+    }
+
+    this.connections.list.find(i => i.id === socketId).socket.send(event)
+
+    return this
+  }
 
   /**
    * Close all connections and shut down the server
    *
    * @method   close
    */
-  close() { this.ws.close() }
+  close() {
+    this.ws.close()
+
+    return this
+  }
 
   get ws() { return this._ws }
   set ws(val) { this._ws = val }
