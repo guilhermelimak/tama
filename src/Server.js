@@ -1,19 +1,12 @@
 import { Server } from 'ws'
-import { encode } from 'base-64'
 import 'colors'
 
-import Connection from 'src/server/Connection'
 import ConnectionsList from 'src/server/ConnectionsList'
-import defaultHandlers from 'src/server/serverHandlers'
 
-import Event from 'src/shared/Event'
+import defaultOptions from 'src/server/defaultOptions'
+import defaultHandlers from 'src/server/defaultHandlers'
+import onClientConnect from 'src/server/onClientConnect'
 import parseMessage from 'src/shared/parseMessage'
-
-const DEFAULT_OPTIONS = {
-  host: '0.0.0.0',
-  port: 9000,
-  handlers: [],
-}
 
 let instance = null
 
@@ -28,40 +21,13 @@ export default class RemServer {
    */
   constructor(customOptions) {
     if (!instance) instance = this
-    const options = Object.assign(DEFAULT_OPTIONS, customOptions)
+    const options = Object.assign(defaultOptions, customOptions)
 
     this.connections = new ConnectionsList()
-
     this.handlers = defaultHandlers.concat(options.handlers)
 
     this.ws = new Server({ port: options.port, host: options.host })
-    this.ws.on('connection', (socket) => {
-      console.log('connection connected')
-      const socketConnection = socket.upgradeReq.connection
-
-      const id = encode(socketConnection)
-
-      this.connections.addConnection(new Connection({
-        ip: socketConnection.remoteAddress,
-        id,
-        socket,
-      }))
-
-      const meta = {
-        publisher: 'srv',
-        recipient: id,
-      }
-
-      socket.send(new Event({
-        type: 'register',
-        payload: id,
-        meta,
-      }).log().toString())
-
-
-      socket.emit()
-    })
-
+    this.ws.on('connection', socket => onClientConnect(socket, this.connections))
     this.ws.on('message', msg => parseMessage(msg, this.handlers))
 
     return instance
@@ -82,9 +48,7 @@ export default class RemServer {
    * @param  {Event}  event     Event instance to be sent
    * @param  {String} connectionId  Connection to send the event to
    */
-  emitEvent(event, socketId) {
-    this.connections.find(i => i.id === socketId).socket.send(event)
-  }
+  emitEvent(event, socketId) { this.connections.find(i => i.id === socketId).socket.send(event) }
 
   get ws() { return this._ws }
   set ws(val) { this._ws = val }
