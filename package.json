@@ -4,9 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --watch=all",
+    "test": "jest",
     "build": "babel src/ --out-dir dist",
-    "prepublish": "yarn run lint && yarn run build",
+    "prepublish": "in-publish && yarn run updateDocs && yarn run lint && yarn run test && yarn run build",
     "updateDocs": "babel-node docs/generateDocs.js",
     "dev": "babel --watch src/ --out-dir dist",
     "lint": "eslint -c .eslintrc.yml --fix src"
@@ -16,6 +16,7 @@
   "dependencies": {
     "base-64": "^0.1.0",
     "fecha": "^2.3.0",
+    "in-publish": "^2.0.0",
     "jest": "^18.1.0",
     "joi": "^10.2.1",
     "joi-to-markdown": "^1.0.1",
