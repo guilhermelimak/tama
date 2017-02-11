@@ -18,12 +18,12 @@ export default class RemServer {
    * @param    {Array}       handlers   Array of event handler objects to be added to instance
    */
   constructor(customOptions) {
-    const options = Object.assign(defaultOptions, customOptions)
+    this.options = Object.assign(defaultOptions, customOptions)
 
     this.connections = new ConnectionsList()
-    this.handlers = defaultHandlers.concat(options.handlers)
+    this.handlers = defaultHandlers.concat(this.options.handlers)
 
-    this.ws = new Server({ port: options.port, host: options.host })
+    this.ws = new Server({ port: this.options.port, host: this.options.host })
     this.ws.on('connection', socket => onClientConnect(socket, this.connections))
     this.ws.on('message', msg => parseMessage(msg, this.handlers))
   }
@@ -60,4 +60,7 @@ export default class RemServer {
 
   get connections() { return this._connections }
   set connections(val) { this._connections = val }
+
+  get options() { return this._options }
+  set options(val) { this._options = val }
 }
