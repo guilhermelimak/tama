@@ -1,3 +1,5 @@
+import 'colors'
+
 export default (message) => {
   if (!message || !message.meta) return message
   console.log('============================================='.green)
