@@ -9,19 +9,19 @@ export default class ConnectionsList {
   constructor() {
     if (!instance) instance = this
 
-    this.connections = []
+    this.list = []
 
     return instance
   }
 
   /**
-   * Add a new connection to connections list
+   * Add a new connection to list list
    *
    * @method addConnection
    * @param  {Connection}  connection Connection instance with connection data.
    */
   addConnection(connection) {
-    this.connections.unshift(connection)
+    this.list.unshift(connection)
   }
 
   /**
@@ -31,9 +31,9 @@ export default class ConnectionsList {
    * @param  {Connection}  connection Connection instance to be deleted
    */
   removeConnection(connection) {
-    this.connections = this.connections.filter(item => item.id !== connection.id)
+    this.list = this.list.filter(item => item.id !== connection.id)
   }
 
-  get connections() { return this._connections }
-  set connections(val) { this._connections = val }
+  get list() { return this._list }
+  set list(val) { this._list = val }
 }
