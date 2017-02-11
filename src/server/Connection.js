@@ -9,9 +9,9 @@ export default class Connection {
    * @param    {Connection}   socket      Connection socket
    */
   constructor(connectionData) {
-    this._id = connectionData.id
-    this._ip = connectionData.ip
-    this._socket = connectionData.socket
+    this.id = connectionData.id
+    this.ip = connectionData.ip
+    this.socket = connectionData.socket
   }
 
   get id() { return this._id }
