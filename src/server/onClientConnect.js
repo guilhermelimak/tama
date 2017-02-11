@@ -7,8 +7,6 @@ export default (socket, connections) => {
   const socketConnection = socket.upgradeReq.connection
 
   const id = encode(socketConnection)
-  console.log(socketConnection)
-  console.log(id)
 
   connections.addConnection(new Connection({
     ip: socketConnection.remoteAddress,
@@ -25,5 +23,5 @@ export default (socket, connections) => {
     type: 'register',
     payload: id,
     meta,
-  }).log().toString())
+  }).toString())
 }

@@ -32,7 +32,6 @@ export default class RemClient {
     return instance
   }
 
-
   /**
    * Emit event to the server. This method will retry the emitEvent forever in 1s intervals until
    * it succeeds
@@ -57,14 +56,13 @@ export default class RemClient {
           publisher: this.identifier,
           recipient: 'srv',
         },
-      }).log()
+      })
 
       this.ws.send(event.toString())
 
       eventEmitted = true
     }, RETRY_INTERVAl)
   }
-
 
   get identifier() { return this._identifier }
   set identifier(val) { this._identifier = val }
