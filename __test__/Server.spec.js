@@ -10,6 +10,7 @@ const ws = require('ws')
 
 const onSpy = jest.fn()
 const closeSpy = jest.fn()
+console.error = jest.fn()
 
 ws.Server = jest.fn(() => ({ on: onSpy, close: closeSpy }))
 
