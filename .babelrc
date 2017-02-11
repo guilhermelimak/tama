@@ -4,6 +4,6 @@
   "plugins": [
     "add-module-exports",
     "transform-es2015-modules-umd",
-    ["module-resolver", { "alias": { "src": "./src/" } }]
+    ["module-resolver", { "alias": { "src": "./src/", "__test__": "./__test__/" } }]
   ]
 }

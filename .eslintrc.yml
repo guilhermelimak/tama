@@ -12,6 +12,7 @@ rules:
   import/extensions: off
   import/no-extraneous-dependencies: off
   import/no-dynamic-require: off
+  no-new: off
   no-console: off
   global-require: off
   indent:
@@ -32,4 +33,6 @@ rules:
     - never
 settings:
   import/resolver:
-    babel-module: src
+    babel-module:
+      - src
+      - __test__
