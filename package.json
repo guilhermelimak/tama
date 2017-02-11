@@ -4,12 +4,15 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
     "build": "babel src/ --out-dir dist",
-    "prepublish": "in-publish && yarn run updateDocs && yarn run lint && yarn run test && yarn run build",
-    "updateDocs": "babel-node docs/generateDocs.js",
     "dev": "babel --watch src/ --out-dir dist",
-    "lint": "eslint -c .eslintrc.yml --fix src"
+    "prepublish": "in-publish && yarn run docs:update && yarn run prepare",
+    "prepare": "yarn run lint && yarn run test && yarn run build",
+    "test": "jest",
+    "test:coverage": "jest --coverage ",
+    "lint": "eslint -c .eslintrc.yml src",
+    "lint:fix": "eslint -c .eslintrc.yml --fix src",
+    "docs:update": "babel-node docs/generateDocs.js"
   },
   "author": "Guilherme Lima",
   "license": "ISC",
