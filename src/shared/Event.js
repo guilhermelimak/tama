@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import fecha from 'fecha'
 
-import { logEvent, genRandomString } from 'src/util'
+import { genRandomString } from 'src/util'
 import { TIMESTAMP_FORMAT } from 'src/constants'
 
 import eventSchema from 'src/shared/schemas/eventSchema'
@@ -36,18 +36,6 @@ export default class Event {
 
       this.eventData = val
     })
-  }
-
-  log() {
-    logEvent(this.toObject())
-
-    return this
-  }
-
-  updateEvent(newVal) {
-    this.eventData = newVal
-
-    return this
   }
 
   toObject() { return this.eventData }
