@@ -37,16 +37,18 @@ describe('Server.js', () => {
     expect(server.ws.close.mock.calls.length).toBe(1)
   })
 
-  it('should add a connection handler on server instance', () => {
-    new Server()
-    expect(onSpy.mock.calls[0][0]).toBe('connection')
-    expect(onSpy.mock.calls[0][1]).toBeInstanceOf(Function)
-  })
+  describe('Default ws handlers', () => {
+    it('should add a connection handler on server instance', () => {
+      new Server()
+      expect(onSpy.mock.calls[0][0]).toBe('connection')
+      expect(onSpy.mock.calls[0][1]).toBeInstanceOf(Function)
+    })
 
-  it('should add a message handler on server instance', () => {
-    new Server()
-    expect(onSpy.mock.calls[1][0]).toBe('message')
-    expect(onSpy.mock.calls[1][1]).toBeInstanceOf(Function)
+    it('should add a message handler on server instance', () => {
+      new Server()
+      expect(onSpy.mock.calls[1][0]).toBe('message')
+      expect(onSpy.mock.calls[1][1]).toBeInstanceOf(Function)
+    })
   })
 
   it('should merge host and port options and use them when instantiating ws server', () => {
