@@ -9,7 +9,7 @@
     "prepublish": "in-publish && yarn run docs:update && yarn run prepare",
     "prepare": "yarn run lint && yarn run test && yarn run build",
     "test": "jest",
-    "test:coverage": "jest --coverage ",
+    "test:coverage": "jest --coverage && xdg-open coverage/lcov-report/index.html",
     "lint": "eslint -c .eslintrc.yml src",
     "lint:fix": "eslint -c .eslintrc.yml --fix src",
     "docs:update": "babel-node docs/generateDocs.js"
