@@ -16,7 +16,7 @@ const getEventHandler = (e, handlers) => handlers.find(i => i.type === e.type).h
  * @method parseMessage
  * @param  {Object}     strMessage Message object in string format to be JSON.parsed
  */
-export default function parseMessage(strMessage, handlersList) {
+export default function (strMessage, handlersList) {
   const event = new Event({ strMessage })
   const eventObj = event.toObject()
   getEventHandler(eventObj, handlersList)(eventObj.payload, this)
