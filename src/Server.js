@@ -20,7 +20,6 @@ export default class RemServer {
    */
   constructor(customOptions) {
     this.options = Object.assign(defaultOptions, customOptions)
-
     this.connections = new ConnectionsList()
     this.handlers = defaultHandlers.concat(this.options.handlers)
 
