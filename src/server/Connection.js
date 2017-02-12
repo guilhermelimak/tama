@@ -4,15 +4,17 @@ export default class Connection {
    *
    * @method   constructor
    *
-   * @param    {Object}       connectionData  Custom options object containing the following props
-   * @prop     {String}       id              Connection id
-   * @prop     {String}       ip              Connection ip
-   * @prop     {Connection}   socket          Connection socket
+   * @param    {Object}       conData         Object containing the connection data
+   * @prop     {String}       conData.id      Connection id
+   * @prop     {String}       conData.ip      Connection ip
+   * @prop     {Socket}       conData.socket  Connection socket
    */
-  constructor(connectionData) {
-    this.id = connectionData.id
-    this.ip = connectionData.ip
-    this.socket = connectionData.socket
+  constructor(conData) {
+    if ('ip' in conData && 'id' in conData && 'socket' in conData) {
+      this.id = conData.id
+      this.ip = conData.ip
+      this.socket = conData.socket
+    }
   }
 
   get id() { return this._id }

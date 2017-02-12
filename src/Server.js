@@ -15,13 +15,16 @@ export default class RemServer {
    * Create a new server instance
    *
    * @method   constructor
-   * @param    {String}      host       Host address to listen in. (Default: '0.0.0.0')
-   * @param    {Number}      port       Port to listen in. (Default: 9000)
-   * @param    {Array}       handlers   Array of event handler objects to be added to instance
+   * @param    {Object}      opt                  Options object
+   * @param    {String}      opt.host             Host address to listen in. (Default: '0.0.0.0')
+   * @param    {Number}      opt.port             Port to listen in. (Default: 9000)
+   * @param    {Array}       opt.handlers         Array of event handler objects to be added to
+   *                                              instance
    */
-  constructor(customOptions) {
-    this.options = Object.assign(defaultOptions, customOptions)
+  constructor(opt) {
+    this.options = Object.assign(defaultOptions, opt)
     this.connections = new ConnectionsList()
+
     this.handlers = defaultHandlers.concat(this.options.handlers)
 
     this.ws = new Server({ port: this.options.port, host: this.options.host })
@@ -55,7 +58,7 @@ export default class RemServer {
    *
    * @method emitEvent
    * @param  {Event}  event     Event instance to be sent
-   * @param  {String} connectionId  Connection to send the event to
+   * @param  {String} socketId  Connection to send the event to
    */
   emitEvent(event, socketId) {
     if (!(event instanceof Event)) {
