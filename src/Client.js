@@ -1,14 +1,11 @@
-import WebSocket from 'ws'
 import 'colors'
 
 import Event from 'src/shared/Event'
 import parseMessage from 'src/shared/parseMessage'
 import clientHandlers from 'src/client/clientHandlers'
+import defaultOptions from 'src/client/defaultOptions'
 
 const RETRY_INTERVAl = 1000
-const DEFAULT_URL = 'ws://localhost:9000'
-
-let instance = null
 
 export default class RemClient {
   /**
@@ -16,20 +13,21 @@ export default class RemClient {
    *
    * @method   constructor
    *
-   * @param    {String}      url             Server url to connect
-   * @param    {Array}       handlers        Handlers array
+   * @param    {Object}            customOPtions   Options object with the following props
+   * @param    {String}            url             Server url to connect
+   * @param    {Array}             handlers        Handlers array
+   * @param    {WebSocketClient}   wsclient        The websocket client constructor
    *
    * @return   {Client}      Client instance
    */
-  constructor(url = DEFAULT_URL, handlers = []) {
-    if (!instance) instance = this
-    const _handlers = [...handlers, ...clientHandlers]
+  constructor(customOptions) {
+    this.options = Object.assign(defaultOptions, customOptions)
 
-    this.ws = new WebSocket(url)
+    const _handlers = [...this.options.handlers, ...clientHandlers]
+
+    this.ws = new this.options.WsClient(this.options.url)
     this.ws.on('open', () => console.log('Connected to server'))
     this.ws.on('message', message => (parseMessage.bind(this)(message, _handlers)))
-
-    return instance
   }
 
   /**
