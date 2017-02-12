@@ -2,7 +2,7 @@ import Joi from 'joi'
 import fecha from 'fecha'
 
 import { genRandomString } from 'src/util'
-import { TIMESTAMP_FORMAT } from 'src/constants'
+import { TIMESTAMP_FORMAT } from 'src/util/constants'
 
 import eventSchema from 'src/shared/schemas/eventSchema'
 

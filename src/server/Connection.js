@@ -4,9 +4,10 @@ export default class Connection {
    *
    * @method   constructor
    *
-   * @param    {String}       id          Connection id
-   * @param    {String}       ip          Connection ip
-   * @param    {Connection}   socket      Connection socket
+   * @param    {Object}       connectionData  Custom options object containing the following props
+   * @prop     {String}       id              Connection id
+   * @prop     {String}       ip              Connection ip
+   * @prop     {Connection}   socket          Connection socket
    */
   constructor(connectionData) {
     this.id = connectionData.id

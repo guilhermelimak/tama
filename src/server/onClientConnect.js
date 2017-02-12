@@ -4,24 +4,10 @@ import Connection from 'src/server/Connection'
 import Event from 'src/shared/Event'
 
 export default (socket, connections) => {
-  const socketConnection = socket.upgradeReq.connection
+  const socketCon = socket.upgradeReq.connection
+  const id = encode(socketCon)
+  const meta = { publisher: 'srv', recipient: id }
 
-  const id = encode(socketConnection)
-
-  connections.addConnection(new Connection({
-    ip: socketConnection.remoteAddress,
-    id,
-    socket,
-  }))
-
-  const meta = {
-    publisher: 'srv',
-    recipient: id,
-  }
-
-  socket.send(new Event({
-    type: 'register',
-    payload: id,
-    meta,
-  }).toString())
+  connections.addConnection(new Connection({ ip: socketCon.remoteAddress, id, socket }))
+  socket.send(new Event({ type: 'register', payload: id, meta }).toString())
 }

@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-import { TIMESTAMP_REGEX } from 'src/constants'
+import { TIMESTAMP_REGEX } from 'src/util/constants'
 
 /**
  * @param   {String} id                Event id
