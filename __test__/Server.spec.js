@@ -1,8 +1,7 @@
 import Server from 'src/Server'
 import { ConnectionsList, Connection, defaultOptions } from 'src/server'
 import dummyEvent from '__test__/util/dummyEvent'
-
-console.error = jest.fn()
+import dummySocket from '__test__/util/dummySocket'
 
 jest.mock('src/shared')
 const sharedModules = require('../src/shared')
@@ -12,10 +11,12 @@ sharedModules.parseMessage = jest.fn()
 jest.mock('src/server')
 const serverModules = require('src/server')
 
-serverModules.onClientConnect = jest.fn()
+serverModules.registerClient = jest.fn()
 
 jest.mock('ws')
 const ws = require('ws')
+
+console.error = jest.fn()
 
 const on = jest.fn()
 const closeSpy = jest.fn()
@@ -24,7 +25,7 @@ ws.Server = jest.fn(() => ({ on, close: closeSpy }))
 describe('Server.js', () => {
   afterEach(() => {
     ws.Server.mockClear()
-    serverModules.onClientConnect.mockClear()
+    serverModules.registerClient.mockClear()
     sharedModules.parseMessage.mockClear()
     on.mockClear()
   })
@@ -67,11 +68,11 @@ describe('Server.js', () => {
       expect(sharedModules.parseMessage.mock.calls.length).toBe(1)
     })
 
-    it('should call onClientConnect handler when a new client connects', () => {
+    it('should call registerClient handler when a new client connects', () => {
       new Server()
       const messageHandler = on.mock.calls[0][1]
-      messageHandler()
-      expect(serverModules.onClientConnect.mock.calls.length).toBe(1)
+      messageHandler(dummySocket())
+      expect(serverModules.registerClient.mock.calls.length).toBe(1)
     })
   })
 

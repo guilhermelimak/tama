@@ -3,7 +3,7 @@ import 'colors'
 
 import {
   ConnectionsList,
-  onClientConnect,
+  registerClient,
   defaultOptions,
   defaultHandlers,
 } from 'src/server'
@@ -25,7 +25,12 @@ export default class RemServer {
     this.handlers = defaultHandlers.concat(this.options.handlers)
 
     this.ws = new Server({ port: this.options.port, host: this.options.host })
-    this.ws.on('connection', socket => onClientConnect(socket, this.connections))
+
+    this.ws.on('connection', (socket) => {
+      const con = registerClient(socket)
+      this.connections.addConnection(con)
+    })
+
     this.ws.on('message', msg => parseMessage(msg, this.handlers))
   }
 
