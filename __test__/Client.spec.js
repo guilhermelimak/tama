@@ -3,9 +3,11 @@ import defaultOptions from 'src/client/defaultOptions'
 
 const onSpy = jest.fn()
 const sendSpy = jest.fn()
-const WsClient = jest.fn(() => ({ on: onSpy, send: sendSpy }))
 
-console.log = jest.fn()
+jest.mock('ws')
+const ws = require('ws')
+
+ws.connect = jest.fn(() => ({ on: onSpy, send: sendSpy }))
 
 jest.mock('src/shared')
 const shared = require('../src/shared')
@@ -18,29 +20,32 @@ describe('Client', () => {
   beforeEach(() => {
     onSpy.mockClear()
     sendSpy.mockClear()
-    WsClient.mockClear()
     setInterval.mockClear()
   })
 
   it('should create a new ws client instance', () => {
-    new Client({ WsClient })
-    expect(WsClient.mock.calls[0][0]).toBe(defaultOptions.url)
+    new Client()
+    expect(ws.connect.mock.calls[0][0]).toBe(defaultOptions.url)
   })
 
   it('should add open ws handler', () => {
-    new Client({ WsClient })
+    new Client()
     expect(onSpy.mock.calls[0][0]).toBe('open')
     expect(onSpy.mock.calls[0][1]).toBeInstanceOf(Function)
   })
 
   it('should add message ws handler', () => {
-    new Client({ WsClient })
+    new Client()
+    const messageHandler = onSpy.mock.calls[1][1]
+
     expect(onSpy.mock.calls[1][0]).toBe('message')
-    expect(onSpy.mock.calls[1][1]).toBeInstanceOf(Function)
+    expect(messageHandler).toBeInstanceOf(Function)
+    messageHandler()
+    expect(shared.parseMessage.mock.calls.length).toBe(1)
   })
 
   it('should emit event when the client identifier is already defined', () => {
-    const client = new Client({ WsClient })
+    const client = new Client()
     client.identifier = '1r290j'
     client.emitEvent('register', { Lol: 'Lol' })
 
@@ -49,7 +54,7 @@ describe('Client', () => {
   })
 
   it('should return without emiting event if the identifier is not defined', () => {
-    const client = new Client({ WsClient })
+    const client = new Client()
 
     client.emitEvent('register', { Lol: 'Lol' })
     setInterval.mock.calls[0][0]()
@@ -57,8 +62,9 @@ describe('Client', () => {
   })
 
   it('should log "Connected to server" on "open" event', () => {
-    new Client({ WsClient })
+    new Client()
     const onOpenHandler = onSpy.mock.calls[0][1]
+    console.log = jest.fn()
     onOpenHandler()
     expect(console.log.mock.calls[0][0]).toBe('Connected to server')
   })

@@ -2,12 +2,8 @@ import Server from 'src/Server'
 import { ConnectionsList, Connection, defaultOptions } from 'src/server'
 import dummyEvent from '__test__/util/dummyEvent'
 
-const onSpy = jest.fn()
-const closeSpy = jest.fn()
-
 console.error = jest.fn()
 
-const WsServer = jest.fn(() => ({ on: onSpy, close: closeSpy }))
 jest.mock('src/shared')
 const sharedModules = require('../src/shared')
 
@@ -18,31 +14,34 @@ const serverModules = require('src/server')
 
 serverModules.onClientConnect = jest.fn()
 
-const options = { WsServer }
+jest.mock('ws')
+const ws = require('ws')
 
+const on = jest.fn()
+const closeSpy = jest.fn()
+ws.Server = jest.fn(() => ({ on, close: closeSpy }))
 
 describe('Server.js', () => {
   afterEach(() => {
-    WsServer.mockClear()
-    onSpy.mockClear()
+    ws.Server.mockClear()
     serverModules.onClientConnect.mockClear()
     sharedModules.parseMessage.mockClear()
     on.mockClear()
   })
 
   it('should instantiate an empty connections list on initialize', () => {
-    const server = new Server(options)
+    const server = new Server()
     expect(server.connections instanceof ConnectionsList).toBe(true)
     expect(server.connections.list).toEqual([])
   })
 
   it('should create new ws server instance on initialize', () => {
-    new Server(options)
-    expect(WsServer.mock.calls.length).toBe(1)
+    new Server()
+    expect(ws.Server.mock.calls.length).toBe(1)
   })
 
   it('should close ws instance when calling close', () => {
-    const server = new Server(options)
+    const server = new Server()
     server.close()
 
     expect(server.ws.close.mock.calls.length).toBe(1)
@@ -80,12 +79,12 @@ describe('Server.js', () => {
     const opt = { host: '666.666.666.666', port: 666 }
     new Server(opt)
 
-    expect(WsServer.mock.calls[0][0].port).toBe(opt.port)
-    expect(WsServer.mock.calls[0][0].host).toBe(opt.host)
+    expect(ws.Server.mock.calls[0][0].port).toBe(opt.port)
+    expect(ws.Server.mock.calls[0][0].host).toBe(opt.host)
   })
 
   it('should use the default options when no parameter is passed', () => {
-    const server = new Server(options)
+    const server = new Server()
     expect(server.options).toEqual(defaultOptions)
   })
 
@@ -97,7 +96,7 @@ describe('Server.js', () => {
 
   describe('emitEvent', () => {
     it('should emit event to a specific client using it\'s id', () => {
-      const server = new Server(options)
+      const server = new Server()
       const send = jest.fn()
       const socketId = 'ihf3o29210h'
 
@@ -114,14 +113,14 @@ describe('Server.js', () => {
     })
 
     it('should fail when sending event that is not an instance of the Event class', () => {
-      const server = new Server(options)
+      const server = new Server()
       expect(server.emitEvent('wrongEvent', 'id')).toThrow()
     })
   })
 
   describe('broadcastEvent', () => {
     it('should broadcast event to all connected clients', () => {
-      const server = new Server(options)
+      const server = new Server()
       const spyObj = [jest.fn(), jest.fn(), jest.fn()]
 
       spyObj.forEach((send, index) => {
@@ -137,7 +136,7 @@ describe('Server.js', () => {
     })
 
     it('should fail when sending event that is not an instance of the Event class', () => {
-      const server = new Server(options)
+      const server = new Server()
       expect(server.broadcastEvent('wrongEvent')).toThrow()
     })
   })

@@ -1,4 +1,5 @@
 import 'colors'
+import WebSocket from 'ws'
 
 import { Event, parseMessage } from 'src/shared'
 import { clientHandlers, defaultOptions } from 'src/client'
@@ -20,10 +21,9 @@ export default class RemClient {
    */
   constructor(customOptions) {
     this.options = Object.assign(defaultOptions, customOptions)
-
     const _handlers = [...this.options.handlers, ...clientHandlers]
 
-    this.ws = new this.options.WsClient(this.options.url)
+    this.ws = WebSocket.connect(this.options.url)
     this.ws.on('open', () => console.log('Connected to server'))
     this.ws.on('message', message => (parseMessage.bind(this)(message, _handlers)))
   }
