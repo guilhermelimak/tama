@@ -21,6 +21,8 @@ export default class ConnectionsList {
    * @param  {Connection}  connection Connection instance with connection data.
    */
   addConnection(connection) {
+    if (!connection) return
+
     this.list.unshift(connection)
   }
 
@@ -31,6 +33,8 @@ export default class ConnectionsList {
    * @param  {Connection}  connection Connection instance to be deleted
    */
   removeConnection(connection) {
+    if (!connection.id) return
+
     this.list = this.list.filter(item => item.id !== connection.id)
   }
 
