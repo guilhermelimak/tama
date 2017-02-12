@@ -1,4 +1,4 @@
-import { Client, Server } from '../src'
+import { Client, Server } from 'src'
 
 describe('index file exports', () => {
   it('should containg the Server and Client properties', () => {

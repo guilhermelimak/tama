@@ -10,7 +10,7 @@ const ws = require('ws')
 ws.connect = jest.fn(() => ({ on: onSpy, send: sendSpy }))
 
 jest.mock('src/shared')
-const shared = require('../src/shared')
+const shared = require('src/shared')
 
 shared.parseMessage = jest.fn()
 
