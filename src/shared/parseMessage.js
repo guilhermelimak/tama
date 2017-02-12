@@ -11,13 +11,17 @@ import Event from 'src/shared/Event'
 const getEventHandler = (e, handlers) => handlers.find(i => i.type === e.type).handler.bind(this)
 
 /**
- * Validate message schema and parse the payload.
+ * Create event instance with strMessage and call the event handler if
+ * the event type is found.
  *
  * @method parseMessage
- * @param  {Object}     strMessage Message object in string format to be JSON.parsed
+ * @param  {Object}  strMessage     Message object in string format to be JSON.parsed
+ * @param  {Array}   handlersList   Handlers list to search the handler to be called
  */
 export default function (strMessage, handlersList) {
   const event = new Event({ strMessage })
   const eventObj = event.toObject()
-  getEventHandler(eventObj, handlersList)(eventObj.payload, this)
+
+  const handler = getEventHandler(eventObj, handlersList)
+  if (handler) handler(eventObj.payload, this)
 }

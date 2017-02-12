@@ -12,9 +12,11 @@ export default class Event {
    *
    * @method   constructor
    *
-   * @param    {String}      type      Event type
-   * @param    {Payload}     payload   Event payload
+   * @param    {String}      type              Event type
+   * @param    {Payload}     payload           Event payload
    * @param    {Object}      meta
+   * @param    {String}      meta.recipient    Event recipient
+   * @param    {String}      meta.publisher    Event publisher
    */
   constructor(eventData) {
     let _eventData = { ...eventData }

@@ -6,6 +6,7 @@ import { TIMESTAMP_REGEX } from 'src/util/constants'
  * @param   {String} id                Event id
  * @param   {String} type              Used to identify events and run handlers
  * @param   {String} payload           Data being transfered in event
+ * @param   {Object} meta              Event metadata
  * @param   {String} meta.recipient    Event recipient
  * @param   {String} meta.publisher    Event publisher
  * @param   {String} meta.timestamp    Event timestamp
