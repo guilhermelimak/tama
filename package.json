@@ -6,8 +6,8 @@
   "scripts": {
     "build": "babel src/ --out-dir dist",
     "dev": "babel --watch src/ --out-dir dist",
-    "prepublish": "in-publish && yarn run docs:update && yarn run prepare",
-    "prepare": "yarn run lint && yarn run test && yarn run build",
+    "prepublish": "in-publish && yarn docs:update && yarn prepare",
+    "prepare": "yarn lint && yarn test && yarn build",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage && xdg-open coverage/lcov-report/index.html",
