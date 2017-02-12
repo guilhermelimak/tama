@@ -13,7 +13,7 @@ export default class RemClient {
    *
    * @method   constructor
    *
-   * @param    {Object}            customOPtions   Options object with the following props
+   * @param    {Object}            customOptions   Options object with the following props
    * @param    {String}            url             Server url to connect
    * @param    {Array}             handlers        Handlers array
    * @param    {WebSocketClient}   wsclient        The websocket client constructor

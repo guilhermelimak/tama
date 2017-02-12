@@ -5,6 +5,8 @@ const onSpy = jest.fn()
 const sendSpy = jest.fn()
 const WsClient = jest.fn(() => ({ on: onSpy, send: sendSpy }))
 
+console.log = jest.fn()
+
 jest.useFakeTimers()
 
 describe('Client', () => {
@@ -47,5 +49,12 @@ describe('Client', () => {
     client.emitEvent('register', { Lol: 'Lol' })
     setInterval.mock.calls[0][0]()
     expect(sendSpy.mock.calls.length).toBe(0)
+  })
+
+  it('should log "Connected to server" on "open" event', () => {
+    new Client({ WsClient })
+    const onOpenHandler = onSpy.mock.calls[0][1]
+    onOpenHandler()
+    expect(console.log.mock.calls[0][0]).toBe('Connected to server')
   })
 })
