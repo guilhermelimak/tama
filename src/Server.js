@@ -1,5 +1,6 @@
 import 'colors'
 
+import { Server } from 'ws'
 import ConnectionsList from 'src/server/ConnectionsList'
 import Event from 'src/shared/Event'
 
@@ -22,7 +23,7 @@ export default class RemServer {
     this.connections = new ConnectionsList()
     this.handlers = defaultHandlers.concat(this.options.handlers)
 
-    this.ws = new this.options.WsServer({ port: this.options.port, host: this.options.host })
+    this.ws = new Server({ port: this.options.port, host: this.options.host })
     this.ws.on('connection', socket => onClientConnect(socket, this.connections))
     this.ws.on('message', msg => parseMessage(msg, this.handlers))
   }
