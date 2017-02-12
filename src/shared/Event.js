@@ -8,7 +8,7 @@ import eventSchema from 'src/shared/schemas/eventSchema'
 
 export default class Event {
   /**
-   * Build event
+   * Build event.
    *
    * @method   constructor
    *
@@ -40,6 +40,20 @@ export default class Event {
     })
   }
 
+  /**
+   * Return eventData in object format.
+   *
+   * @method   toObject
+   * @return   {Object}   EventData object
+   */
   toObject() { return this.eventData }
+
+
+  /**
+   * Return stringified event data object to be sent in messages.
+   *
+   * @method   toString
+   * @return   {String}   Event data stringified object
+   */
   toString() { return JSON.stringify(this.eventData) }
 }

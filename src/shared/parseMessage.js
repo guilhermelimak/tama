@@ -19,9 +19,8 @@ const getEventHandler = (e, handlers) => handlers.find(i => i.type === e.type).h
  * @param  {Array}   handlersList   Handlers list to search the handler to be called
  */
 export default function (strMessage, handlersList) {
-  const event = new Event({ strMessage })
-  const eventObj = event.toObject()
-
+  const eventObj = new Event({ strMessage }).toObject()
   const handler = getEventHandler(eventObj, handlersList)
+
   if (handler) handler(eventObj.payload, this)
 }
