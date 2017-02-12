@@ -1,9 +1,7 @@
 import 'colors'
 
-import Event from 'src/shared/Event'
-import parseMessage from 'src/shared/parseMessage'
-import clientHandlers from 'src/client/clientHandlers'
-import defaultOptions from 'src/client/defaultOptions'
+import { Event, parseMessage } from 'src/shared'
+import { clientHandlers, defaultOptions } from 'src/client'
 
 const RETRY_INTERVAl = 1000
 

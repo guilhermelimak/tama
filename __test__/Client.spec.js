@@ -7,6 +7,11 @@ const WsClient = jest.fn(() => ({ on: onSpy, send: sendSpy }))
 
 console.log = jest.fn()
 
+jest.mock('src/shared')
+const shared = require('../src/shared')
+
+shared.parseMessage = jest.fn()
+
 jest.useFakeTimers()
 
 describe('Client', () => {

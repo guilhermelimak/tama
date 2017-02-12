@@ -1,13 +1,13 @@
 import 'colors'
 
-import { Server } from 'ws'
-import ConnectionsList from 'src/server/ConnectionsList'
-import Event from 'src/shared/Event'
+import {
+  ConnectionsList,
+  onClientConnect,
+  defaultOptions,
+  defaultHandlers,
+} from 'src/server'
 
-import defaultOptions from 'src/server/defaultOptions'
-import defaultHandlers from 'src/server/defaultHandlers'
-import onClientConnect from 'src/server/onClientConnect'
-import parseMessage from 'src/shared/parseMessage'
+import { Event, parseMessage } from 'src/shared'
 
 export default class RemServer {
   /**

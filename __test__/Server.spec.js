@@ -1,8 +1,5 @@
 import Server from 'src/Server'
-import ConnectionsList from 'src/server/ConnectionsList'
-import Connection from 'src/server/Connection'
-
-import defaultOptions from 'src/server/defaultOptions'
+import { ConnectionsList, Connection, defaultOptions } from 'src/server'
 import dummyEvent from '__test__/util/dummyEvent'
 
 const onSpy = jest.fn()
@@ -11,6 +8,15 @@ const closeSpy = jest.fn()
 console.error = jest.fn()
 
 const WsServer = jest.fn(() => ({ on: onSpy, close: closeSpy }))
+jest.mock('src/shared')
+const sharedModules = require('../src/shared')
+
+sharedModules.parseMessage = jest.fn()
+
+jest.mock('src/server')
+const serverModules = require('src/server')
+
+serverModules.onClientConnect = jest.fn()
 
 const options = { WsServer }
 
@@ -19,6 +25,9 @@ describe('Server.js', () => {
   afterEach(() => {
     WsServer.mockClear()
     onSpy.mockClear()
+    serverModules.onClientConnect.mockClear()
+    sharedModules.parseMessage.mockClear()
+    on.mockClear()
   })
 
   it('should instantiate an empty connections list on initialize', () => {
@@ -41,15 +50,29 @@ describe('Server.js', () => {
 
   describe('Default ws handlers', () => {
     it('should add a connection handler on server instance', () => {
-      new Server(options)
-      expect(onSpy.mock.calls[0][0]).toBe('connection')
-      expect(onSpy.mock.calls[0][1]).toBeInstanceOf(Function)
+      new Server()
+      expect(on.mock.calls[0][0]).toBe('connection')
+      expect(on.mock.calls[0][1]).toBeInstanceOf(Function)
     })
 
     it('should add a message handler on server instance', () => {
-      new Server(options)
-      expect(onSpy.mock.calls[1][0]).toBe('message')
-      expect(onSpy.mock.calls[1][1]).toBeInstanceOf(Function)
+      new Server()
+      expect(on.mock.calls[1][0]).toBe('message')
+      expect(on.mock.calls[1][1]).toBeInstanceOf(Function)
+    })
+
+    it('should call parseMessage handler when receiving a message event', () => {
+      new Server()
+      const messageHandler = on.mock.calls[1][1]
+      messageHandler()
+      expect(sharedModules.parseMessage.mock.calls.length).toBe(1)
+    })
+
+    it('should call onClientConnect handler when a new client connects', () => {
+      new Server()
+      const messageHandler = on.mock.calls[0][1]
+      messageHandler()
+      expect(serverModules.onClientConnect.mock.calls.length).toBe(1)
     })
   })
 
