@@ -1,4 +1,4 @@
-## REM
+## tama
 
 This library is a wrapper of the `ws` websockets library, adding the following features:
 - [x] Keep a list of users identified by an ID.
