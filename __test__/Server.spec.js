@@ -1,5 +1,5 @@
 import Server from 'src/Server.js'
-import { ConnectionsList, Connection, defaultOptions } from 'src/server/index.js'
+import { List, Connection, defaultOptions } from 'src/server/index.js'
 import dummyEvent from '__test__/util/dummyEvent.js'
 import dummySocket from '__test__/util/dummySocket.js'
 
@@ -32,7 +32,7 @@ describe('Server.js', () => {
 
   it('should instantiate an empty connections list on initialize', () => {
     const server = new Server()
-    expect(server.connections instanceof ConnectionsList).toBe(true)
+    expect(server.connections instanceof List).toBe(true)
     expect(server.connections.list).toEqual([])
   })
 
@@ -107,7 +107,7 @@ describe('Server.js', () => {
         socket: { send },
       })
 
-      server.connections.addConnection(connection)
+      server.connections.add(connection)
       server.emitEvent(dummyEvent(), socketId)
 
       expect(send.mock.calls.length).toBe(1)
@@ -125,7 +125,7 @@ describe('Server.js', () => {
       const spyObj = [jest.fn(), jest.fn(), jest.fn()]
 
       spyObj.forEach((send, index) => {
-        server.connections.addConnection(new Connection({
+        server.connections.add(new Connection({
           ip: '192.168.0.1',
           id: index,
           socket: { send },
