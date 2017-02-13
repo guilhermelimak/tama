@@ -22,11 +22,6 @@ describe('Connections list', () => {
     expect(conList.list[0]).toBe(con)
   })
 
-  it('should be a singleton and not reset the connections in  a new instance', () => {
-    const conList = new List()
-    expect(conList.list.length).toBe(1)
-  })
-
   it('should be remove the connection by their id', () => {
     const conList = new List()
     conList.remove(con)
