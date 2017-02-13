@@ -1,5 +1,5 @@
-import Client from 'src/Client'
-import defaultOptions from 'src/client/defaultOptions'
+import Client from 'src/Client.js'
+import { defaultOptions } from 'src/client/index.js'
 
 const onSpy = jest.fn()
 const sendSpy = jest.fn()
@@ -9,8 +9,8 @@ const ws = require('ws')
 
 ws.connect = jest.fn(() => ({ on: onSpy, send: sendSpy }))
 
-jest.mock('src/shared')
-const shared = require('src/shared')
+jest.mock('src/shared/index.js')
+const shared = require('src/shared/index.js')
 
 shared.parseMessage = jest.fn()
 
