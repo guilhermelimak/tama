@@ -1,4 +1,4 @@
-import { splitAndCapitalize } from 'src/util'
+import { splitAndCapitalize } from 'src/util/index.js'
 
 describe('splitAndCapitalize.js', () => {
   it('should work on pascal case strings', () => {
