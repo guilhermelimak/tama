@@ -10,6 +10,7 @@ This library is a wrapper of the `ws` websockets library, adding the following f
 Check the examples folder for examples on how to use it.
 
 ### Development
-###### Schemas
+##### Schemas
 [Event schema](docs/schemas/eventSchema.md)
+
 [Handler schema](docs/schemas/handlerSchema.md)

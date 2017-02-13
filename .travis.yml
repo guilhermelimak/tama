@@ -1,0 +1,26 @@
+language: node_js
+
+cache:
+  directories:
+    - node_modules
+
+notifications:
+  email: true
+
+node_js:
+  - '7'
+  - '6'
+  - '4'
+
+before_script:
+  - npm prune
+
+script:
+  - npm run prepare
+
+after_success:
+  - npm run semantic-release
+
+branches:
+  only:
+    - master
