@@ -1,5 +1,4 @@
-# tama
-[![Build Status](https://travis-ci.org/guilhermelimak/tama.svg?branch=master)](https://travis-ci.org/guilhermelimak/tama)
+# tama [![Build Status](https://travis-ci.org/guilhermelimak/tama.svg?branch=master)](https://travis-ci.org/guilhermelimak/tama)
 This library is a wrapper of the `ws` websockets library :
 
 
