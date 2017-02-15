@@ -23,15 +23,15 @@ export default class RemServer {
    */
   constructor(opt) {
     this.options = Object.assign(defaultOptions, opt)
-    this.connections = new List()
+    this.connectionsList = new List()
 
     this.handlers = defaultHandlers.concat(this.options.handlers)
 
     this.ws = new Server({ port: this.options.port, host: this.options.host })
 
     this.ws.on('connection', (socket) => {
-      const con = registerClient(socket)
-      this.connections.add(con)
+      const connection = registerClient(socket)
+      this.connectionsList.add(connection)
     })
 
     this.ws.on('message', msg => parseMessage(msg, this.handlers))
@@ -48,7 +48,7 @@ export default class RemServer {
       return console.error('Argument event is not an instance of the Event class')
     }
 
-    this.connections.list.forEach(connection => connection.socket.send(event))
+    this.connectionsList.items.forEach(connection => connection.socket.send(event))
 
     return this
   }
@@ -65,7 +65,7 @@ export default class RemServer {
       return console.error('Argument event is not an instance of the Event class')
     }
 
-    this.connections.list.find(i => i.id === socketId).socket.send(event)
+    this.connectionsList.items.find(i => i.id === socketId).socket.send(event)
 
     return this
   }
@@ -87,8 +87,8 @@ export default class RemServer {
   get handlers() { return this._handlers }
   set handlers(val) { this._handlers = val }
 
-  get connections() { return this._connections }
-  set connections(val) { this._connections = val }
+  get connectionsList() { return this._connectionsList }
+  set connectionsList(val) { this._connectionsList = val }
 
   get options() { return this._options }
   set options(val) { this._options = val }

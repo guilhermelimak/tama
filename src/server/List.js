@@ -15,7 +15,7 @@ export default class List {
    * @method remove
    * @param  {Object}  itemId   Id of item instance to be deleted
    */
-  remove(itemId) { if (itemId) this.items = this.list.filter(i => i.id !== itemId) }
+  remove(itemId) { if (itemId) this.items = this.items.filter(i => i.id !== itemId) }
 
   get items() { return this._items }
   set items(val) { this._items = val }
