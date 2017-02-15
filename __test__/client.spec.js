@@ -1,4 +1,4 @@
-import Client from 'src/Client.js'
+import Client from 'src/client.js'
 import { defaultOptions } from 'src/clientModules/index.js'
 
 const onSpy = jest.fn()

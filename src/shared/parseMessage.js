@@ -1,4 +1,4 @@
-import Event from 'src/shared/Event'
+import Event from 'src/shared/event'
 
 /**
  * Return the handler associated with the event type.

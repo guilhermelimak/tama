@@ -1,4 +1,4 @@
-import Connection from 'src/serverModules/Connection'
+import Connection from 'src/serverModules/connection'
 
 describe('Connection', () => {
   it('should assign the props passed as arguments', () => {

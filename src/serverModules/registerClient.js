@@ -1,7 +1,7 @@
 import { encode } from 'base-64'
 
-import Connection from 'src/serverModules/Connection'
-import Event from 'src/shared/Event'
+import Connection from 'src/serverModules/connection'
+import Event from 'src/shared/event'
 
 /**
  * Send register event to socket and return a new connection

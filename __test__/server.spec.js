@@ -1,4 +1,4 @@
-import Server from 'src/Server.js'
+import Server from 'src/server.js'
 import { List, Connection, defaultOptions } from 'src/serverModules/index.js'
 import dummyEvent from '__test__/util/dummyEvent.js'
 import dummySocket from '__test__/util/dummySocket.js'

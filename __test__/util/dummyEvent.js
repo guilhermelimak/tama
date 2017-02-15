@@ -1,4 +1,4 @@
-import Event from 'src/shared/Event'
+import Event from 'src/shared/event'
 
 /**
  * Returns a function that return a dummy event instance used for testing

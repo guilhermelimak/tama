@@ -1,5 +1,5 @@
-import List from 'src/serverModules/List'
-import Connection from 'src/serverModules/Connection'
+import List from 'src/serverModules/list'
+import Connection from 'src/serverModules/connection'
 
 const con = new Connection({
   id: 'testId',
