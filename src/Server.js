@@ -6,7 +6,7 @@ import {
   registerClient,
   defaultOptions,
   defaultHandlers,
-} from 'src/server/index.js'
+} from 'src/serverModules/index.js'
 
 import { Event, parseMessage } from 'src/shared'
 

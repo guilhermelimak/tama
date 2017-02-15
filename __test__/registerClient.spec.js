@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import { encode } from 'base-64'
 
-import { registerClient } from 'src/server/index.js'
+import { registerClient } from 'src/serverModules/index.js'
 import eventSchema from 'src/shared/schemas/eventSchema.js'
 import dummySocket from '__test__/util/dummySocket.js'
 

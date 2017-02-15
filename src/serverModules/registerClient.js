@@ -1,6 +1,6 @@
 import { encode } from 'base-64'
 
-import Connection from 'src/server/Connection'
+import Connection from 'src/serverModules/Connection'
 import Event from 'src/shared/Event'
 
 /**

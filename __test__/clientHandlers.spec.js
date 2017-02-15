@@ -1,4 +1,4 @@
-import clientHandlers from 'src/client/clientHandlers'
+import clientHandlers from 'src/clientModules/clientHandlers'
 
 describe('clientHandlers', () => {
   it('should assign id to instance on register event', () => {

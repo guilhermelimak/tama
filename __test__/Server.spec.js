@@ -1,5 +1,5 @@
 import Server from 'src/Server.js'
-import { List, Connection, defaultOptions } from 'src/server/index.js'
+import { List, Connection, defaultOptions } from 'src/serverModules/index.js'
 import dummyEvent from '__test__/util/dummyEvent.js'
 import dummySocket from '__test__/util/dummySocket.js'
 
@@ -8,8 +8,8 @@ const sharedModules = require('../src/shared/index.js')
 
 sharedModules.parseMessage = jest.fn()
 
-jest.mock('src/server/index.js')
-const serverModules = require('src/server/index.js')
+jest.mock('src/serverModules/index.js')
+const serverModules = require('src/serverModules/index.js')
 
 serverModules.registerClient = jest.fn()
 

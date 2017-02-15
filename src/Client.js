@@ -2,7 +2,7 @@ import 'colors'
 import WebSocket from 'ws'
 
 import { Event, parseMessage } from 'src/shared/index.js'
-import { clientHandlers, defaultOptions } from 'src/client/index.js'
+import { clientHandlers, defaultOptions } from 'src/clientModules/index.js'
 
 const RETRY_INTERVAl = 1000
 
