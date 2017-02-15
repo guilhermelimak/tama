@@ -1,10 +1,5 @@
 export default class List {
-  /**
-   * Initialize the list.
-   *
-   * @method   constructor
-   */
-  constructor() { this.list = [] }
+  constructor() { this.items = [] }
 
   /**
    * Add a new item to list.
@@ -12,16 +7,16 @@ export default class List {
    * @method add
    * @param  {Object}  item   Item instance with item data
    */
-  add(item) { if (item) this.list.unshift(item) }
+  add(item) { if (item) this.items.unshift(item) }
 
   /**
-   * Remove item from list.
+   * Remove item from list using id.
    *
    * @method remove
-   * @param  {Object}  item   Item instance to be deleted
+   * @param  {Object}  itemId   Id of item instance to be deleted
    */
-  remove(item) { if (item.id) this.list = this.list.filter(i => i.id !== item.id) }
+  remove(itemId) { if (itemId) this.items = this.list.filter(i => i.id !== itemId) }
 
-  get list() { return this._list }
-  set list(val) { this._list = val }
+  get items() { return this._items }
+  set items(val) { this._items = val }
 }
