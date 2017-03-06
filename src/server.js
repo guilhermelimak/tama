@@ -79,7 +79,7 @@ export default class RemServer {
       return console.error('Argument event is not an instance of the Event class')
     }
 
-    this.connectionsList.items.find(i => i.id === socketId).socket.send(event)
+    this.connectionsList.items.find(c => c.id === socketId).socket.send(event)
 
     return this
   }
@@ -89,11 +89,7 @@ export default class RemServer {
    *
    * @method   close
    */
-  close() {
-    this.ws.close()
-
-    return this
-  }
+  close() { this.ws.close(); return this }
 
   get ws() { return this._ws }
   set ws(val) { this._ws = val }

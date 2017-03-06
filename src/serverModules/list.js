@@ -1,3 +1,6 @@
+/**
+ * List used to hold objects
+ */
 export default class List {
   constructor() { this.items = [] }
 
