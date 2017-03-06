@@ -1,7 +1,7 @@
-import clientHandlers from './clientHandlers'
+import defaultHandlers from './defaultHandlers'
 import defaultOptions from './defaultOptions'
 
 export default {
-  clientHandlers,
+  defaultHandlers,
   defaultOptions,
 }

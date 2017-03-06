@@ -2,7 +2,7 @@ import 'colors'
 import WebSocket from 'ws'
 
 import { Event, parseMessage } from 'src/shared/index.js'
-import { clientHandlers, defaultOptions } from 'src/clientModules/index.js'
+import { defaultHandlers, defaultOptions } from 'src/clientModules/index.js'
 
 const RETRY_INTERVAl = 1000
 
@@ -21,7 +21,7 @@ export default class RemClient {
    */
   constructor(customOptions) {
     this.options = Object.assign(defaultOptions, customOptions)
-    const _handlers = [...this.options.handlers, ...clientHandlers]
+    const _handlers = [...this.options.handlers, ...defaultHandlers]
 
     this.ws = WebSocket.connect(this.options.url)
     this.ws.on('open', () => console.log('Connected to server'))
