@@ -6,6 +6,7 @@ import {
   registerClient,
   defaultOptions,
   defaultHandlers,
+  RoomManager,
 } from 'src/serverModules/index.js'
 
 import { Event, parseMessage } from 'src/shared'
@@ -28,6 +29,8 @@ export default class RemServer {
     this.handlers = defaultHandlers.concat(this.options.handlers)
 
     this.ws = new Server({ port: this.options.port, host: this.options.host })
+
+    this.roomManager = new RoomManager()
 
     this.ws.on('connection', (socket) => {
       const connection = registerClient(socket)
@@ -52,6 +55,17 @@ export default class RemServer {
 
     return this
   }
+
+  broadcastToRoom(event, roomName) {
+    const clients = this.roomManager.getClientsFromRoom(roomName)
+
+    this.connectionsList.items.forEach((c) => {
+      clients.forEach((i) => {
+        if (c.id === i) c.socket.send(event)
+      })
+    })
+  }
+
 
   /**
    * Emit event to one connection
