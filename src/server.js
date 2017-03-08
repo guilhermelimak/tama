@@ -2,14 +2,13 @@ import { Server } from 'ws'
 import 'colors'
 
 import {
-  List,
   registerClient,
   defaultOptions,
   defaultHandlers,
   RoomManager,
 } from 'src/serverModules/index.js'
 
-import { Event, parseMessage } from 'src/shared'
+import { Event, List, parseMessage } from 'src/shared'
 
 export default class RemServer {
   /**
