@@ -20,7 +20,6 @@ const getEventHandler = (e, handlers) => handlers.find(i => i.type === e.type).h
  */
 export default function (strMessage, handlersList, context) {
   const eventObj = new Event({ strMessage }).toObject()
-  console.log(eventObj.type)
   const handler = getEventHandler(eventObj, handlersList)
 
   if (handler) handler(eventObj.payload, context)
