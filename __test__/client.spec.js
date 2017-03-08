@@ -79,16 +79,10 @@ describe('Client', () => {
   })
 
   it('should add handler when using .on method', () => {
-    const c = new Client()
-    c.connect()
+    const c = new Client().connect()
+    const eventName = 'test'
 
-    expect(onSpy.mock.calls[1][0]).toBe('message')
-    const messageHandler = onSpy.mock.calls[1][1]
-
-    expect(messageHandler).toBeInstanceOf(Function)
-    messageHandler()
-
-    c.on('test', () => {})
-    expect(shared.parseMessage.mock.calls[0].length).toBe(3)
+    c.on(eventName, () => {})
+    expect(c.handlerManager.items.find(i => i.type === eventName)).toBeDefined()
   })
 })
