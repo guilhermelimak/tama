@@ -16,11 +16,18 @@ shared.parseMessage = jest.fn()
 
 jest.useFakeTimers()
 
+const oldclog = console.log
+
 describe('Client', () => {
   beforeEach(() => {
     onSpy.mockClear()
     sendSpy.mockClear()
     setInterval.mockClear()
+    shared.parseMessage.mockClear()
+  })
+
+  afterEach(() => {
+    console.log = oldclog
   })
 
   it('should create a new ws client instance', () => {
@@ -67,5 +74,18 @@ describe('Client', () => {
     console.log = jest.fn()
     onOpenHandler()
     expect(console.log.mock.calls[0][0]).toBe('Connected to server')
+  })
+
+  it('should add handler when using .on method', () => {
+    const c = new Client()
+
+    expect(onSpy.mock.calls[1][0]).toBe('message')
+    const messageHandler = onSpy.mock.calls[1][1]
+
+    expect(messageHandler).toBeInstanceOf(Function)
+    messageHandler()
+
+    c.on('test', () => {})
+    expect(shared.parseMessage.mock.calls[0].length).toBe(2)
   })
 })
