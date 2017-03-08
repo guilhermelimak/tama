@@ -8,7 +8,13 @@ import Event from 'src/shared/event'
  * @param  {Object}   handlers   Handlers list to find the handler in.
  * @return {Func}     Handler associated with the event type
  */
-const getEventHandler = (e, handlers) => handlers.find(i => i.type === e.type).handler.bind(this)
+const getEventHandler = (e, handlers) => {
+  const event = handlers.find(i => i.type === e.type)
+
+  if (!event) return undefined
+
+  return event.handler.bind(this)
+}
 
 /**
  * Create event instance with strMessage and call the event handler if
