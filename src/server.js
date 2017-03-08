@@ -55,6 +55,13 @@ export default class RemServer {
     return this
   }
 
+  /**
+   * Broadcast to all clients connected in a room
+   *
+   * @method broadcastToRoom
+   * @param  {Event}  event     Event instance to be sent
+   * @param  {String} roomName  Room name
+   */
   broadcastToRoom(event, roomName) {
     const clients = this.roomManager.getClientsFromRoom(roomName)
 

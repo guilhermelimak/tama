@@ -42,7 +42,8 @@ export default class RemClient {
     // VAI SI FUDE TODO MUNDO DESGRAÇA
     let eventEmitted = false
 
-    setInterval(() => {
+    const tryEmit = () => {
+      // Check the identifier to know if the client is registered
       if (!this || !this.identifier || eventEmitted) return
 
       const event = new Event({
@@ -54,10 +55,23 @@ export default class RemClient {
         },
       })
 
-      this.ws.send(event.toString())
-
+      this._ws.send(event.toString())
       eventEmitted = true
-    }, RETRY_INTERVAl)
+    }
+
+    setInterval(tryEmit, RETRY_INTERVAL)
+  }
+
+  /**
+   * Add event handler
+   *
+   * @method on
+   *
+   * @param  {String} type    [description]
+   * @param  {Function} handler [description]
+   */
+  on(type, handler) {
+    this.handlerManager.add({ type, handler })
   }
 
   get identifier() { return this._identifier }
