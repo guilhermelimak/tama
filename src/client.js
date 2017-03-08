@@ -1,17 +1,16 @@
 import 'colors'
 import WebSocket from 'ws'
 
-import { Event, parseMessage } from 'src/shared/index.js'
+import { Event, List, parseMessage } from 'src/shared/index.js'
 import { defaultHandlers, defaultOptions } from 'src/clientModules/index.js'
 
-const RETRY_INTERVAl = 1000
+const RETRY_INTERVAL = 1000
 
 export default class RemClient {
   /**
    * Create a new client instance
    *
    * @method   constructor
-   *
    * @param    {Object}            customOptions   Options object with the following props
    * @param    {String}            url             Server url to connect
    * @param    {Array}             handlers        Handlers array
@@ -21,11 +20,19 @@ export default class RemClient {
    */
   constructor(customOptions) {
     this.options = Object.assign(defaultOptions, customOptions)
-    const _handlers = [...this.options.handlers, ...defaultHandlers]
+    this.handlerManager = new List([...this.options.handlers, ...defaultHandlers], 'type')
+  }
 
-    this.ws = WebSocket.connect(this.options.url)
-    this.ws.on('open', () => console.log('Connected to server'))
-    this.ws.on('message', message => (parseMessage.bind(this)(message, _handlers)))
+  /**
+   * Create websocket connection and add message handler
+   * @method connect
+   */
+  connect() {
+    this._ws = WebSocket.connect(this.options.url)
+    this._ws.on('open', () => console.log('Connected to server'))
+    this._ws.on('message', message => parseMessage(message, this.handlerManager.items, this))
+
+    return this
   }
 
   /**
