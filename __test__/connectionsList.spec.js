@@ -1,4 +1,4 @@
-import List from 'src/serverModules/list'
+import List from 'src/shared/list'
 import Connection from 'src/serverModules/connection'
 
 const con = new Connection({

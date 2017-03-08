@@ -31,18 +31,18 @@ describe('Client', () => {
   })
 
   it('should create a new ws client instance', () => {
-    new Client()
+    new Client().connect()
     expect(ws.connect.mock.calls[0][0]).toBe(defaultOptions.url)
   })
 
   it('should add open ws handler', () => {
-    new Client()
+    new Client().connect()
     expect(onSpy.mock.calls[0][0]).toBe('open')
     expect(onSpy.mock.calls[0][1]).toBeInstanceOf(Function)
   })
 
   it('should add message ws handler', () => {
-    new Client()
+    new Client().connect()
     const messageHandler = onSpy.mock.calls[1][1]
 
     expect(onSpy.mock.calls[1][0]).toBe('message')
@@ -53,6 +53,7 @@ describe('Client', () => {
 
   it('should emit event when the client identifier is already defined', () => {
     const client = new Client()
+    client.connect()
     client.identifier = '1r290j'
     client.emitEvent('register', { Lol: 'Lol' })
 
@@ -62,6 +63,7 @@ describe('Client', () => {
 
   it('should return without emiting event if the identifier is not defined', () => {
     const client = new Client()
+    client.connect()
 
     client.emitEvent('register', { Lol: 'Lol' })
     setInterval.mock.calls[0][0]()
@@ -69,7 +71,7 @@ describe('Client', () => {
   })
 
   it('should log "Connected to server" on "open" event', () => {
-    new Client()
+    new Client().connect()
     const onOpenHandler = onSpy.mock.calls[0][1]
     console.log = jest.fn()
     onOpenHandler()
@@ -78,6 +80,7 @@ describe('Client', () => {
 
   it('should add handler when using .on method', () => {
     const c = new Client()
+    c.connect()
 
     expect(onSpy.mock.calls[1][0]).toBe('message')
     const messageHandler = onSpy.mock.calls[1][1]
@@ -86,6 +89,6 @@ describe('Client', () => {
     messageHandler()
 
     c.on('test', () => {})
-    expect(shared.parseMessage.mock.calls[0].length).toBe(2)
+    expect(shared.parseMessage.mock.calls[0].length).toBe(3)
   })
 })
