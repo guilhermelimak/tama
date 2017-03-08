@@ -14,7 +14,7 @@ describe('registerClient', () => {
   afterEach(() => socket.send.mockClear())
 
   it('should call send event', () => {
-    expect(socket.send.mock.calls.length).toBe(2)
+    expect(socket.send.mock.calls.length).toBe(1)
   })
 
   it('should create an id with the connection remoteAddress', () => {
