@@ -62,6 +62,15 @@ describe('Server.js', () => {
       expect(on.mock.calls[1][1]).toBeInstanceOf(Function)
     })
 
+    it('should add a handler when using the .on method', () => {
+      const s = new Server()
+      const a = jest.fn()
+      const oldListLength = s.handlerManager.items.length
+      s.on('test', a)
+      const newListLenght = s.handlerManager.items.length
+      expect(newListLenght - oldListLength).toBe(1)
+    })
+
     it('should call parseMessage handler when receiving a message event', () => {
       new Server()
       const messageHandler = on.mock.calls[1][1]
@@ -93,7 +102,7 @@ describe('Server.js', () => {
   it('should merge handlers when passed in args', () => {
     const handlers = [{ ev1: () => 'r1' }, { ev2: () => 'r2' }, { ev3: () => 'r3' }]
     const server = new Server({ handlers })
-    expect(server.handlers).toEqual(handlers)
+    expect(server.handlerManager.items).toEqual(handlers)
   })
 
   describe('emitEvent', () => {

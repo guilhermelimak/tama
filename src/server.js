@@ -14,7 +14,6 @@ export default class RemServer {
   /**
    * Create a new server instance
    *
-   * @method   constructor
    * @param    {Object}      opt                  Options object
    * @param    {String}      opt.host             Host address to listen in. (Default: '0.0.0.0')
    * @param    {Number}      opt.port             Port to listen in. (Default: 9000)
@@ -25,24 +24,26 @@ export default class RemServer {
     this.options = Object.assign(defaultOptions, opt)
     this.connectionsList = new List()
 
-    this.handlers = defaultHandlers.concat(this.options.handlers)
-
-    this.ws = new Server({ port: this.options.port, host: this.options.host })
+    this.handlerManager = new List(defaultHandlers.concat(this.options.handlers), 'type')
 
     this.roomManager = new RoomManager()
+    this._connect()
+  }
+
+  _connect() {
+    this.ws = new Server({ port: this.options.port, host: this.options.host })
 
     this.ws.on('connection', (socket) => {
       const connection = registerClient(socket)
       this.connectionsList.add(connection)
     })
 
-    this.ws.on('message', msg => parseMessage(msg, this.handlers))
+    this.ws.on('message', msg => parseMessage(msg, this.handlerManager.items))
   }
 
   /**
    * Send event to all connected connections
    *
-   * @method   broadcastToAll
    * @param    {Event}  event  Event instance to be sent
    */
   broadcastEvent(event) {
@@ -58,7 +59,6 @@ export default class RemServer {
   /**
    * Broadcast to all clients connected in a room
    *
-   * @method broadcastToRoom
    * @param  {Event}  event     Event instance to be sent
    * @param  {String} roomName  Room name
    */
@@ -76,7 +76,6 @@ export default class RemServer {
   /**
    * Emit event to one connection
    *
-   * @method emitEvent
    * @param  {Event}  event     Event instance to be sent
    * @param  {String} socketId  Connection to send the event to
    */
@@ -92,10 +91,18 @@ export default class RemServer {
 
   /**
    * Close all connections and shut down the server
-   *
-   * @method   close
    */
   close() { this.ws.close(); return this }
+
+  /**
+   * Add event handler
+   *
+   * @param  {String} type    [description]
+   * @param  {Function} handler [description]
+   */
+  on(type, handler) {
+    this.handlerManager.add({ type, handler })
+  }
 
   get ws() { return this._ws }
   set ws(val) { this._ws = val }
