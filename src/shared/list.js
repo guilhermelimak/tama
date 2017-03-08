@@ -2,7 +2,10 @@
  * List used to hold objects
  */
 export default class List {
-  constructor() { this.items = [] }
+  constructor(idKey = 'id') {
+    this.idKey = idKey
+    this.items = []
+  }
 
   /**
    * Add a new item to list.
@@ -18,7 +21,7 @@ export default class List {
    * @method remove
    * @param  {Object}  itemId   Id of item instance to be deleted
    */
-  remove(itemId) { if (itemId) this.items = this.items.filter(i => i.id !== itemId) }
+  remove(itemId) { if (itemId) this.items = this.items.filter(i => i[this.idKey] !== itemId) }
 
   get items() { return this._items }
   set items(val) { this._items = val }
