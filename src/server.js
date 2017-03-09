@@ -32,9 +32,13 @@ export default class RemServer {
       this._connectionsList.add(connection)
     })
 
-    this.ws.on('message', msg => parseMessage(msg, this._handlersList.items))
+    this.ws.on('message', msg => this._receiveMessage(msg))
 
     return this
+  }
+
+  _receiveMessage(msg) {
+    parseMessage(msg, this._handlersList.items)
   }
 
   /**
