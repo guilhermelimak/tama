@@ -55,7 +55,7 @@ describe('Client', () => {
     const client = new Client()
     client.connect()
     client.identifier = '1r290j'
-    client.emitEvent('register', { Lol: 'Lol' })
+    client.emit('register', { Lol: 'Lol' })
 
     setInterval.mock.calls[0][0]()
     expect(sendSpy.mock.calls.length).toBe(1)
@@ -65,7 +65,7 @@ describe('Client', () => {
     const client = new Client()
     client.connect()
 
-    client.emitEvent('register', { Lol: 'Lol' })
+    client.emit('register', { Lol: 'Lol' })
     setInterval.mock.calls[0][0]()
     expect(sendSpy.mock.calls.length).toBe(0)
   })

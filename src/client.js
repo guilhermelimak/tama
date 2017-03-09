@@ -45,7 +45,7 @@ export default class RemClient {
    * @param    {Object|Array|String}    payload   Event payload
    */
   /* eslint-disable class-methods-use-this */
-  emitEvent(type, payload) {
+  emit(type, payload) {
     // VAI SI FUDE TODO MUNDO DESGRAÇA
     let eventEmitted = false
 
