@@ -21,23 +21,25 @@ export default class RemServer {
    */
   constructor(opt) {
     this.options = Object.assign(defaultOptions, opt)
-    this.connectionsList = new List()
 
-    this.handlerManager = new List(this.options.handlers, 'type')
+    this._connectionsList = new List()
 
-    this.roomManager = new RoomManager()
-    this._connect()
+    this._handlersList = new List(this.options.handlers, 'type')
+
+    this._roomManager = new RoomManager()
+
+    this._listen()
   }
 
-  _connect() {
+  _listen() {
     this.ws = new Server({ port: this.options.port, host: this.options.host })
 
     this.ws.on('connection', (socket) => {
       const connection = registerClient(socket)
-      this.connectionsList.add(connection)
+      this._connectionsList.add(connection)
     })
 
-    this.ws.on('message', msg => parseMessage(msg, this.handlerManager.items))
+    this.ws.on('message', msg => parseMessage(msg, this._handlersList.items))
   }
 
   /**
@@ -50,7 +52,7 @@ export default class RemServer {
       return console.error('Argument event is not an instance of the Event class')
     }
 
-    this.connectionsList.items.forEach(connection => connection.socket.send(event))
+    this._connectionsList.items.forEach(connection => connection.socket.send(event))
 
     return this
   }
@@ -62,9 +64,9 @@ export default class RemServer {
    * @param  {String} roomName  Room name
    */
   broadcastToRoom(event, roomName) {
-    const clients = this.roomManager.getClientsFromRoom(roomName)
+    const clients = this._roomManager.getClientsFromRoom(roomName)
 
-    this.connectionsList.items.forEach((c) => {
+    this._connectionsList.items.forEach((c) => {
       clients.forEach((i) => {
         if (c.id === i) c.socket.send(event)
       })
@@ -83,13 +85,13 @@ export default class RemServer {
       return console.error('Argument event is not an instance of the Event class')
     }
 
-    this.connectionsList.items.find(c => c.id === socketId).socket.send(event)
+    this._connectionsList.items.find(c => c.id === socketId).socket.send(event)
 
     return this
   }
 
   /**
-   * Close all connections and shut down the server
+   * Close connection and shut down the server
    */
   close() { this.ws.close(); return this }
 
@@ -100,17 +102,14 @@ export default class RemServer {
    * @param  {Function} handler [description]
    */
   on(type, handler) {
-    this.handlerManager.add({ type, handler })
+    this._handlersList.add({ type, handler })
   }
 
   get ws() { return this._ws }
   set ws(val) { this._ws = val }
 
-  get handlers() { return this._handlers }
-  set handlers(val) { this._handlers = val }
-
-  get connectionsList() { return this._connectionsList }
-  set connectionsList(val) { this._connectionsList = val }
+  get handlers() { return this._handlersList.items }
+  get connections() { return this._connectionsList.items }
 
   get options() { return this._options }
   set options(val) { this._options = val }

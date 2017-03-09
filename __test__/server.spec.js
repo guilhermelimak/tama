@@ -33,8 +33,8 @@ describe('Server.js', () => {
 
   it('should instantiate an empty connections list on initialize', () => {
     const server = new Server()
-    expect(server.connectionsList instanceof List).toBe(true)
-    expect(server.connectionsList.items).toEqual([])
+    expect(server._connectionsList instanceof List).toBe(true)
+    expect(server.connections).toEqual([])
   })
 
   it('should create new ws server instance on initialize', () => {
@@ -65,9 +65,9 @@ describe('Server.js', () => {
     it('should add a handler when using the .on method', () => {
       const s = new Server()
       const a = jest.fn()
-      const oldListLength = s.handlerManager.items.length
+      const oldListLength = s.handlers.length
       s.on('test', a)
-      const newListLenght = s.handlerManager.items.length
+      const newListLenght = s.handlers.length
       expect(newListLenght - oldListLength).toBe(1)
     })
 
@@ -102,7 +102,7 @@ describe('Server.js', () => {
   it('should merge handlers when passed in args', () => {
     const handlers = [{ ev1: () => 'r1' }, { ev2: () => 'r2' }, { ev3: () => 'r3' }]
     const server = new Server({ handlers })
-    expect(server.handlerManager.items).toEqual(handlers)
+    expect(server.handlers).toEqual(handlers)
   })
 
   describe('emitEvent', () => {
@@ -117,7 +117,7 @@ describe('Server.js', () => {
         socket: { send },
       })
 
-      server.connectionsList.add(connection)
+      server._connectionsList.add(connection)
       server.emitEvent(dummyEvent(), socketId)
 
       expect(send.mock.calls.length).toBe(1)
@@ -135,7 +135,7 @@ describe('Server.js', () => {
       const spyObj = [jest.fn(), jest.fn(), jest.fn()]
 
       spyObj.forEach((send, index) => {
-        server.connectionsList.add(new Connection({
+        server._connectionsList.add(new Connection({
           ip: '192.168.0.1',
           id: index,
           socket: { send },
