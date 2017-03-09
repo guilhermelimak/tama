@@ -1,7 +1,10 @@
-/**
- * List used to hold objects
- */
 export default class List {
+  /**
+   * Create a new list
+   *
+   * @param  {Array}     [items=[]]   [description]
+   * @param  {string}    [idKey='id'] [description]
+   */
   constructor(items = [], idKey = 'id') {
     this._idKey = idKey
     this.items = items
@@ -10,27 +13,28 @@ export default class List {
   /**
    * Add a new item to list.
    *
-   * @method add
-   * @param  {Object}  item   Item instance with item data
+   * @param  {Object}  item   Item to be added
    */
-  add(item) { if (item) this.items.unshift(item) }
+  add(item) {
+    if (item !== undefined) this.items.unshift(item)
+  }
 
   /**
    * Remove item from list using id.
    *
-   * @method remove
-   * @param  {Object}  itemId   Id of item instance to be deleted
+   * @param  {Object}  itemId   Id of item to be deleted
    */
-  remove(itemId) { if (itemId) this.items = this.items.filter(i => i[this._idKey] !== itemId) }
+  remove(itemId) {
+    if (itemId !== undefined) this.items = this.items.filter(i => i[this._idKey] !== itemId) || []
+  }
 
   /**
-   * Get item by itemId
-   * @method item
-   * @param  {String|Number} itemId [description]
-   * @returns {Object} [description]
+   * Get item by id
+   *
+   * @param  {String|Number} itemId  Id of item to be returned
+   * @returns {Object}               Item or undefined if id not found
    */
-  item(itemId) { return this._items.find(i => i[this._idKey] === itemId) || undefined }
-
-  get items() { return this._items }
-  set items(val) { this._items = val }
+  item(itemId) {
+    return this.items.find(i => i[this._idKey] === itemId) || undefined
+  }
 }
