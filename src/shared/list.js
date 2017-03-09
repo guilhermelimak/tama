@@ -25,7 +25,7 @@ export default class List {
    * @param  {Object}  itemId   Id of item to be deleted
    */
   remove(itemId) {
-    if (itemId !== undefined) this.items = this.items.filter(i => i[this._idKey] !== itemId) || []
+    if (itemId !== undefined) this.items = this.items.filter(i => i[this._idKey] !== itemId)
   }
 
   /**

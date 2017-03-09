@@ -41,6 +41,12 @@ describe('list', () => {
     expect(list.items[0]).toEqual({ name: 'name' })
   })
 
+  it('should return undefind when the itemId is not found', () => {
+    const list = new List([{ name: 'name' }])
+
+    expect(list.item(0)).not.toBeDefined()
+  })
+
   it('should be able to remove an item by the id', () => {
     const list = new List([{ id: 1 }, { id: 0 }, { id: 3 }])
 
