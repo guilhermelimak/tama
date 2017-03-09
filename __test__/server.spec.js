@@ -105,7 +105,7 @@ describe('Server.js', () => {
     expect(server.handlers).toEqual(handlers)
   })
 
-  describe('emitEvent', () => {
+  describe('emit', () => {
     it('should emit event to a specific client using it\'s id', () => {
       const server = new Server()
       const send = jest.fn()
@@ -118,18 +118,18 @@ describe('Server.js', () => {
       })
 
       server._connectionsList.add(connection)
-      server.emitEvent(dummyEvent(), socketId)
+      server.emit(dummyEvent(), socketId)
 
       expect(send.mock.calls.length).toBe(1)
     })
 
     it('should fail when sending event that is not an instance of the Event class', () => {
       const server = new Server()
-      expect(server.emitEvent('wrongEvent', 'id')).toThrow()
+      expect(server.emit('wrongEvent', 'id')).toThrow()
     })
   })
 
-  describe('broadcastEvent', () => {
+  describe('emitToAll', () => {
     it('should broadcast event to all connected clients', () => {
       const server = new Server()
       const spyObj = [jest.fn(), jest.fn(), jest.fn()]
@@ -142,13 +142,13 @@ describe('Server.js', () => {
         }))
       })
 
-      server.broadcastEvent(dummyEvent())
+      server.emitToAll(dummyEvent())
       spyObj.forEach(i => expect(i.mock.calls.length).toBe(1))
     })
 
     it('should fail when sending event that is not an instance of the Event class', () => {
       const server = new Server()
-      expect(server.broadcastEvent('wrongEvent')).toThrow()
+      expect(server.emitToAll('wrongEvent')).toThrow()
     })
   })
 })

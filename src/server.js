@@ -47,7 +47,7 @@ export default class RemServer {
    *
    * @param    {Event}  event  Event instance to be sent
    */
-  broadcastEvent(event) {
+  emitToAll(event) {
     if (!(event instanceof Event)) {
       return console.error('Argument event is not an instance of the Event class')
     }
@@ -63,7 +63,7 @@ export default class RemServer {
    * @param  {Event}  event     Event instance to be sent
    * @param  {String} roomName  Room name
    */
-  broadcastToRoom(event, roomName) {
+  emitToRoom(event, roomName) {
     const clients = this._roomManager.getClientsFromRoom(roomName)
 
     this._connectionsList.items.forEach((c) => {
@@ -80,7 +80,7 @@ export default class RemServer {
    * @param  {Event}  event     Event instance to be sent
    * @param  {String} socketId  Connection to send the event to
    */
-  emitEvent(event, socketId) {
+  emit(event, socketId) {
     if (!(event instanceof Event)) {
       return console.error('Argument event is not an instance of the Event class')
     }
