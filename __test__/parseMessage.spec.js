@@ -9,7 +9,8 @@ describe('parseMessage', () => {
       handler,
     }]
 
-    parseMessage(dummyEvent().toString(), handlers)
+    const fn = parseMessage(dummyEvent().toString(), handlers)
+    fn()
     expect(handler.mock.calls.length).toBe(1)
   })
 

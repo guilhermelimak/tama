@@ -38,7 +38,9 @@ export default class RemServer {
   }
 
   _receiveMessage(msg) {
-    parseMessage(msg, this._handlersList.items)
+    const handler = parseMessage(msg, this._handlersList.items)
+
+    if (handler) handler()
   }
 
   /**
