@@ -4,7 +4,6 @@ import 'colors'
 import {
   registerClient,
   defaultOptions,
-  defaultHandlers,
   RoomManager,
 } from 'src/serverModules/index.js'
 
@@ -24,7 +23,7 @@ export default class RemServer {
     this.options = Object.assign(defaultOptions, opt)
     this.connectionsList = new List()
 
-    this.handlerManager = new List(defaultHandlers.concat(this.options.handlers), 'type')
+    this.handlerManager = new List(this.options.handlers, 'type')
 
     this.roomManager = new RoomManager()
     this._connect()
