@@ -16,13 +16,4 @@ export default class Connection {
       this.socket = conData.socket
     }
   }
-
-  get id() { return this._id }
-  set id(val) { this._id = val }
-
-  get ip() { return this._ip }
-  set ip(val) { this._ip = val }
-
-  get socket() { return this._socket }
-  set socket(val) { this._socket = val }
 }

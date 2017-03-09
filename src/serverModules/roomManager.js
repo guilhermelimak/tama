@@ -13,7 +13,9 @@ export default class RoomManager {
    */
   getClientsFromRoom(roomName) {
     const room = this.rooms[roomName]
+
     if (!room) return new Error('Room not found')
+
     return room
   }
 
@@ -25,6 +27,7 @@ export default class RoomManager {
    */
   addClientToRoom(clientId, roomName) {
     const room = this.rooms[roomName]
+
     if (!room) this._createRoom(roomName)
 
     this.rooms[roomName].push(clientId)
@@ -40,6 +43,7 @@ export default class RoomManager {
    */
   removeClientFromRoom(clientId, roomName) {
     const room = this.rooms[roomName]
+
     if (!room) return new Error('Room not found')
 
     this.rooms[roomName] = room.filter(id => id !== clientId)
