@@ -43,10 +43,10 @@ export default class Event {
   /**
    * Return eventData in object format.
    *
-   * @method   toObject
+   * @method   toObj
    * @return   {Object}   EventData object
    */
-  toObject() { return this.eventData }
+  toObj() { return this.eventData }
 
 
   /**

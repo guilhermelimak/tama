@@ -21,8 +21,8 @@ jest.mock('src/util')
 console.error = jest.fn()
 
 describe('Event', () => {
-  it('should return an object from the toObject method', () => {
-    const event = new Event(eventData).toObject()
+  it('should return an object from the toObj method', () => {
+    const event = new Event(eventData).toObj()
 
     expect(typeof event).toBe('object')
   })
@@ -35,14 +35,14 @@ describe('Event', () => {
 
   it('should build the event when receiving a string', () => {
     const e = { strMessage: JSON.stringify(eventData) }
-    const event = new Event(e).toObject()
+    const event = new Event(e).toObj()
     eventExpect(expect, event)
   })
 
   it('should fail when passing an invalid object', () => expect(new Event({})).toThrow())
 
   it('should build the event when receiving an object', () => {
-    const event = new Event(eventData).toObject()
+    const event = new Event(eventData).toObj()
     eventExpect(expect, event)
   })
 })

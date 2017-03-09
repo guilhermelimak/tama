@@ -6,7 +6,7 @@ console.log = jest.fn()
 describe('logEvent', () => {
   afterEach(() => console.log.mockClear())
   it('should log the event and return message', () => {
-    const event = logEvent(dummyEvent().toObject())
+    const event = logEvent(dummyEvent().toObj())
     expect(console.log.mock.calls.length).toBeGreaterThan(0)
     expect(event).toBeDefined()
   })
