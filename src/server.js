@@ -1,12 +1,7 @@
 import { Server } from 'ws'
 import 'colors'
 
-import {
-  registerClient,
-  defaultOptions,
-  RoomManager,
-} from 'src/serverModules/index.js'
-
+import { registerClient, defaultOptions, RoomManager } from 'src/serverModules/index.js'
 import { Event, List, parseMessage } from 'src/shared'
 
 export default class RemServer {
@@ -47,7 +42,7 @@ export default class RemServer {
    *
    * @param    {Event}  event  Event instance to be sent
    */
-  emitToAll(event) {
+  broadcast(event) {
     if (!(event instanceof Event)) {
       return console.error('Argument event is not an instance of the Event class')
     }
@@ -63,7 +58,7 @@ export default class RemServer {
    * @param  {Event}  event     Event instance to be sent
    * @param  {String} roomName  Room name
    */
-  emitToRoom(event, roomName) {
+  broadcastToRoom(event, roomName) {
     const clients = this._roomManager.getClientsFromRoom(roomName)
 
     this._connectionsList.items.forEach((c) => {
@@ -73,27 +68,21 @@ export default class RemServer {
     })
   }
 
-
   /**
    * Emit event to one connection
    *
    * @param  {Event}  event     Event instance to be sent
-   * @param  {String} socketId  Connection to send the event to
+   * @param  {String} clientId  Connection to send the event to
    */
-  emit(event, socketId) {
+  emit(event, clientId) {
     if (!(event instanceof Event)) {
       return console.error('Argument event is not an instance of the Event class')
     }
 
-    this._connectionsList.items.find(c => c.id === socketId).socket.send(event)
+    this._connectionsList.items.find(c => c.id === clientId).socket.send(event)
 
     return this
   }
-
-  /**
-   * Close connection and shut down the server
-   */
-  close() { this.ws.close(); return this }
 
   /**
    * Add event handler
@@ -105,12 +94,11 @@ export default class RemServer {
     this._handlersList.add({ type, handler })
   }
 
-  get ws() { return this._ws }
-  set ws(val) { this._ws = val }
+  /**
+   * Close connection and shut down the server
+   */
+  close() { this.ws.close(); return this }
 
   get handlers() { return this._handlersList.items }
   get connections() { return this._connectionsList.items }
-
-  get options() { return this._options }
-  set options(val) { this._options = val }
 }
