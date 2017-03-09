@@ -27,11 +27,9 @@ export default class RemServer {
     this._handlersList = new List(this.options.handlers, 'type')
 
     this._roomManager = new RoomManager()
-
-    this._listen()
   }
 
-  _listen() {
+  listen() {
     this.ws = new Server({ port: this.options.port, host: this.options.host })
 
     this.ws.on('connection', (socket) => {
@@ -40,6 +38,8 @@ export default class RemServer {
     })
 
     this.ws.on('message', msg => parseMessage(msg, this._handlersList.items))
+
+    return this
   }
 
   /**

@@ -32,18 +32,18 @@ describe('Server.js', () => {
   })
 
   it('should instantiate an empty connections list on initialize', () => {
-    const server = new Server()
+    const server = new Server().listen()
     expect(server._connectionsList instanceof List).toBe(true)
     expect(server.connections).toEqual([])
   })
 
   it('should create new ws server instance on initialize', () => {
-    new Server()
+    new Server().listen()
     expect(ws.Server.mock.calls.length).toBe(1)
   })
 
   it('should close ws instance when calling close', () => {
-    const server = new Server()
+    const server = new Server().listen()
     server.close()
 
     expect(server.ws.close.mock.calls.length).toBe(1)
@@ -51,19 +51,19 @@ describe('Server.js', () => {
 
   describe('Default ws handlers', () => {
     it('should add a connection handler on server instance', () => {
-      new Server()
+      new Server().listen()
       expect(on.mock.calls[0][0]).toBe('connection')
       expect(on.mock.calls[0][1]).toBeInstanceOf(Function)
     })
 
     it('should add a message handler on server instance', () => {
-      new Server()
+      new Server().listen()
       expect(on.mock.calls[1][0]).toBe('message')
       expect(on.mock.calls[1][1]).toBeInstanceOf(Function)
     })
 
     it('should add a handler when using the .on method', () => {
-      const s = new Server()
+      const s = new Server().listen()
       const a = jest.fn()
       const oldListLength = s.handlers.length
       s.on('test', a)
@@ -72,14 +72,14 @@ describe('Server.js', () => {
     })
 
     it('should call parseMessage handler when receiving a message event', () => {
-      new Server()
+      new Server().listen()
       const messageHandler = on.mock.calls[1][1]
       messageHandler()
       expect(sharedModules.parseMessage.mock.calls.length).toBe(1)
     })
 
     it('should call registerClient handler when a new client connects', () => {
-      new Server()
+      new Server().listen()
       const messageHandler = on.mock.calls[0][1]
       messageHandler(dummySocket())
       expect(serverModules.registerClient.mock.calls.length).toBe(1)
@@ -88,14 +88,14 @@ describe('Server.js', () => {
 
   it('should merge host and port options and use them when instantiating ws server', () => {
     const opt = { host: '666.666.666.666', port: 666 }
-    new Server(opt)
+    new Server(opt).listen()
 
     expect(ws.Server.mock.calls[0][0].port).toBe(opt.port)
     expect(ws.Server.mock.calls[0][0].host).toBe(opt.host)
   })
 
   it('should use the default options when no parameter is passed', () => {
-    const server = new Server()
+    const server = new Server().listen()
     expect(server.options).toEqual(defaultOptions)
   })
 
@@ -107,7 +107,7 @@ describe('Server.js', () => {
 
   describe('emit', () => {
     it('should emit event to a specific client using it\'s id', () => {
-      const server = new Server()
+      const server = new Server().listen()
       const send = jest.fn()
       const socketId = 'ihf3o29210h'
 
@@ -124,14 +124,14 @@ describe('Server.js', () => {
     })
 
     it('should fail when sending event that is not an instance of the Event class', () => {
-      const server = new Server()
+      const server = new Server().listen()
       expect(server.emit('wrongEvent', 'id')).toThrow()
     })
   })
 
   describe('emitToAll', () => {
     it('should broadcast event to all connected clients', () => {
-      const server = new Server()
+      const server = new Server().listen()
       const spyObj = [jest.fn(), jest.fn(), jest.fn()]
 
       spyObj.forEach((send, index) => {
@@ -147,7 +147,7 @@ describe('Server.js', () => {
     })
 
     it('should fail when sending event that is not an instance of the Event class', () => {
-      const server = new Server()
+      const server = new Server().listen()
       expect(server.emitToAll('wrongEvent')).toThrow()
     })
   })

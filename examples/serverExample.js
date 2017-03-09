@@ -1,4 +1,5 @@
 const Server = require('../dist').Server
 
-new Server()
+const server = new Server()
+server.listen()
 console.log('Server listening')
